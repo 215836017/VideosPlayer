@@ -1,11 +1,12 @@
 package com.test.videosplayer.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.videosplayer.R;
 import com.test.videosplayer.ui.adapter.LocalAdapter;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class LocalVideosActivity extends AppCompatActivity {
 
-    private final String TAG = "LocalVideosActivity.java";
+    private final String TAG = "LocalVideosActivity";
 
     private VideoFinder videoFinder;
     private List<VideoBean> videoList;
@@ -41,7 +42,7 @@ public class LocalVideosActivity extends AppCompatActivity {
         LogUtil.i(TAG, "initViews() -- videoList.size() = " + videoList.size());
         RecyclerView recyclerView = findViewById(R.id.localAct_recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+//        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

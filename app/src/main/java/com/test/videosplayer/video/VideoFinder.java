@@ -11,13 +11,32 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class VideoFinder {
+public class VideoFinder extends Thread {
 
-    private final String TAG = "VideoFinder.java";
+    private final String TAG = "VideoFinder";
 
-    public List<VideoBean> getAllVideos(Context context) {
+    public interface OnQueryVideosListener {
+        void onQueryVideosFinish(List<VideoBean> videosList);
+    }
 
-        List<VideoBean> videos = new ArrayList<>();
+    private Context context;
+    private OnQueryVideosListener onQueryVideosListener;
+
+    public VideoFinder(Context context, OnQueryVideosListener onQueryVideosListener) {
+        this.context = context;
+        this.onQueryVideosListener = onQueryVideosListener;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+
+        queryAllVideos();
+    }
+
+    private void queryAllVideos() {
+
+        List<VideoBean> videosList = new ArrayList<>();
 
         Cursor cursor = context.getApplicationContext().getContentResolver().
                 query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
@@ -57,7 +76,6 @@ public class VideoFinder {
                 int width = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.WIDTH));
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
 
-
                 if (0 == testCount) {
                     testCount++;
                     LogUtil.d(TAG, "default_sort_order = " + default_sort_order);
@@ -88,7 +106,7 @@ public class VideoFinder {
                     LogUtil.d(TAG, "id = " + id);
                     LogUtil.d(TAG, "title = " + title);
                 }
-                videos.add(new VideoBean(id, default_sort_order, album, artist, bookMark,
+                videosList.add(new VideoBean(id, default_sort_order, album, artist, bookMark,
                         bucket_display_name, bucket_id, category, date_taken,
                         description, duration, is_private, language,
                         latitude, longitude, mini_thumb_magic, resolution,
@@ -97,18 +115,20 @@ public class VideoFinder {
                         width));
             }
 
-            Collections.sort(videos, new Comparator<VideoBean>() {
-                @Override
-                public int compare(VideoBean o1, VideoBean o2) {
-                    return o1.getData().compareTo(o2.getData());
-                }
-            });
+//            Collections.sort(videosList, new Comparator<VideoBean>() {
+//                @Override
+//                public int compare(VideoBean o1, VideoBean o2) {
+//                    return o1.getData().compareTo(o2.getData());
+//                }
+//            });
         } else {
-            LogUtil.d(TAG, "return null");
-            return null;
+            LogUtil.e(TAG, "return null");
         }
-
-        return videos;
+        if (null != onQueryVideosListener) {
+            onQueryVideosListener.onQueryVideosFinish(videosList);
+        } else {
+            throw new NullPointerException("onQueryVideosListener is null");
+        }
     }
     /*
 com.test.videosplayer D/VideoFinder.java: videoPlay_log default_sort_order = wx_camera_1484820710584
