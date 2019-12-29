@@ -2,6 +2,7 @@ package com.test.videosplayer.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.test.videosplayer.MediaCoverHelper;
 import com.test.videosplayer.R;
 import com.test.videosplayer.ui.PlayerActivity;
 import com.test.videosplayer.utils.LogUtil;
@@ -30,11 +32,12 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
     private List<VideoBean> vides;
     private String strDir;
     private Intent intent = new Intent();
+    private MediaCoverHelper mediaCoverHelper;
 
     public LocalAdapter(Context context, List<VideoBean> vides) {
         this.context = context;
         this.vides = vides;
-
+        mediaCoverHelper = new MediaCoverHelper();
     }
 
     @NonNull
@@ -50,9 +53,10 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int pos) {
 
         final VideoBean videoBean = vides.get(pos);
+        LogUtil.i(TAG, "onBindViewHolder() -- videoBean: " + videoBean.toString());
         String[] videoDirs = videoBean.getData().split("/");
         String dir = videoDirs[videoDirs.length - 2];
-
+        String path = "/storage/emulated/0/AVC264.mp4";
         viewHolder.layoutRoot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +75,14 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         } else {
             LogUtil.i(TAG, "onBindViewHolder() 22222222222");
             viewHolder.textDir.setVisibility(View.GONE);
+        }
+        Bitmap videoCover = mediaCoverHelper.getVideoCover(videoBean.getData());
+        if (null != videoCover) {
+            LogUtil.i(TAG, "onBindViewHolder() 3333333");
+            viewHolder.imageAlbum.setImageBitmap(videoCover);
+        } else {
+            LogUtil.i(TAG, "onBindViewHolder() 444444444444");
+            viewHolder.imageAlbum.setImageResource(R.mipmap.ic_launcher_round);
         }
 
         viewHolder.imageAlbum.setImageResource(R.mipmap.ic_launcher_round);

@@ -1,6 +1,7 @@
 package com.test.videosplayer.ui;
 
 import android.graphics.SurfaceTexture;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Surface;
@@ -40,6 +41,8 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
         if (null != videoInfo) {
             LogUtil.i(TAG, "recv videoInfo: " + videoInfo.toString());
         }
+
+        MediaMetadataRetriever mediaMetadataRetriever;
     }
 
     private void initViews() {
