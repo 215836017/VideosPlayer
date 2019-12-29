@@ -11,3 +11,5 @@ https://www.jianshu.com/p/b05e5d83318b
 (3).能够对线程进行简单的管理，可提供定时执行和按照指定时间间隔循环执行等功能.
 
 所以在代码中尽量用线程池(ThreadPoolExecutor)来创建线程.
+
+4. add  string from mac, and push to github 
