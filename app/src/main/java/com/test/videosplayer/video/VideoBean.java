@@ -1,6 +1,8 @@
 package com.test.videosplayer.video;
 
-public class VideoBean {
+import java.io.Serializable;
+
+public class VideoBean implements Serializable {
 
     private String default_sort_order;
     private String album;
