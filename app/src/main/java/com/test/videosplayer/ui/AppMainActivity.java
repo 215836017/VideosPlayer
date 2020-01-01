@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,9 +16,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.videosplayer.R;
+import com.test.videosplayer.ui.adapter.LocalAdapter;
 import com.test.videosplayer.utils.LogUtil;
 import com.test.videosplayer.video.VideoBean;
 import com.test.videosplayer.video.VideoFinder;
@@ -40,6 +44,7 @@ public class AppMainActivity extends AppCompatActivity {
     private TextView textEmpty;
     private RecyclerView recyclerView;
 
+    private ProgressBar progressBar;
     private VideoFinder videoFinder;
     private List<VideoBean> videosList;
 
@@ -51,10 +56,12 @@ public class AppMainActivity extends AppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_QUERY_VIDEO_FAILED:
+                    progressBar.setVisibility(View.GONE);
                     textEmpty.setVisibility(View.GONE);
                     break;
 
                 case MSG_QUERY_VIDEO_SUCC:
+                    progressBar.setVisibility(View.GONE);
                     setDatas();
                     break;
             }
@@ -160,20 +167,32 @@ public class AppMainActivity extends AppCompatActivity {
     private void initViews() {
         textEmpty = findViewById(R.id.main_activity_tv_empty);
         recyclerView = findViewById(R.id.main_activity_rv);
-
+        progressBar = findViewById(R.id.main_activity_pb);
     }
 
     public void mainActTextClick(View view) {
+        if (view.getId() == R.id.main_activity_tv_back) {
+            finish();
 
+        } else if (view.getId() == R.id.main_activity_tv_history) {
+            // todo: show watch history list.
+        }
     }
 
     private void queryAllVideos() {
+        progressBar.setVisibility(View.VISIBLE);
         videoFinder = new VideoFinder(this, queryVideosListener);
         videoFinder.start();
     }
 
     private void setDatas() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        LocalAdapter adapter = new LocalAdapter(this, videosList);
+        recyclerView.setAdapter(adapter);
     }
 
     VideoFinder.OnQueryVideosListener queryVideosListener = new VideoFinder.OnQueryVideosListener() {

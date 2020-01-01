@@ -1,6 +1,8 @@
 package com.test.videosplayer.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.test.videosplayer.R;
+import com.test.videosplayer.ui.PlayerActivity;
 import com.test.videosplayer.utils.LogUtil;
 import com.test.videosplayer.video.VideoBean;
 
@@ -21,13 +24,17 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
 
     private final String TAG = "LocalAdapter.java";
 
+    public static final String EXTRA_VIDEO_INFO = "videoInfo";
+
     private Context context;
     private List<VideoBean> vides;
-    private String strDir = "";
+    private String strDir;
+    private Intent intent = new Intent();
 
     public LocalAdapter(Context context, List<VideoBean> vides) {
         this.context = context;
         this.vides = vides;
+
     }
 
     @NonNull
@@ -38,23 +45,32 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int pos) {
 
-        VideoBean videoBean = vides.get(pos);
+        final VideoBean videoBean = vides.get(pos);
         String[] videoDirs = videoBean.getData().split("/");
         String dir = videoDirs[videoDirs.length - 2];
 
-        LogUtil.i(TAG, "onBindViewHolder() -- strDir = " + strDir + ", dir = " + dir);
-        if (strDir.equals(dir)) {
-            LogUtil.i(TAG, "onBindViewHolder() 1111111111111");
-            viewHolder.textDir.setVisibility(View.GONE);
+        viewHolder.layoutRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent.setClass(context, PlayerActivity.class);
+                intent.putExtra(EXTRA_VIDEO_INFO, videoBean);
+                context.startActivity(intent);
+            }
+        });
 
-        } else {
-            LogUtil.i(TAG, "onBindViewHolder() 22222222222");
+        LogUtil.i(TAG, "onBindViewHolder() -- strDir = " + strDir + ", dir = " + dir);
+        if (TextUtils.isEmpty(strDir) || !strDir.equals(dir)) {
+            LogUtil.i(TAG, "onBindViewHolder() 1111111111111");
             viewHolder.textDir.setVisibility(View.VISIBLE);
             viewHolder.textDir.setText(dir);
             strDir = dir;
+        } else {
+            LogUtil.i(TAG, "onBindViewHolder() 22222222222");
+            viewHolder.textDir.setVisibility(View.GONE);
         }
 
         viewHolder.imageAlbum.setImageResource(R.mipmap.ic_launcher_round);
