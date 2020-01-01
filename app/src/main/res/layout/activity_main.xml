@@ -18,18 +18,17 @@
             android:layout_margin="5dp"
             android:clickable="true"
             android:onClick="mainActTextClick"
-            android:text="Back"
-            android:textSize="25dp" />
+            android:text="Back" />
 
         <TextView
+            android:id="@+id/main_activity_tv_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
             android:clickable="true"
             android:onClick="mainActTextClick"
-            android:text="Videos"
-            android:textSize="25dp" />
+            android:text="Videos List" />
 
         <TextView
             android:id="@+id/main_activity_tv_history"
@@ -39,8 +38,7 @@
             android:layout_margin="5dp"
             android:clickable="true"
             android:onClick="mainActTextClick"
-            android:text="History"
-            android:textSize="25dp" />
+            android:text="History Watch" />
 
     </RelativeLayout>
 
@@ -56,13 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="No Videos!"
-        android:visibility="gone" />
-
-    <ProgressBar
-        android:id="@+id/main_activity_pb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:visibility="gone" />
 
 </RelativeLayout>

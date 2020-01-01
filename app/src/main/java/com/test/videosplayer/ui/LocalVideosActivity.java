@@ -33,6 +33,8 @@ public class LocalVideosActivity extends AppCompatActivity {
     }
 
     private void initDatas() {
+        videoFinder = new VideoFinder();
+        videoList = videoFinder.getAllVideos(this);
     }
 
     private void initViews() {

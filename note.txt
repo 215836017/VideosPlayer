@@ -1,4 +1,4 @@
-﻿1. Android中多媒体数据库各字段详解：
+1. Android中多媒体数据库各字段详解：
 https://blog.csdn.net/smart_mumu/article/details/9130327
 
 2. 提取视频多张图片和视频信息：

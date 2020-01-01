@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/itemLocal_text_dir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        tools:text="video's dir" />
+        android:text="dirdsfasfdas"
+        android:textSize="20sp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/itemLocal_layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,18 +32,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="sdfad"
             app:layout_constraintStart_toEndOf="@+id/itemLocal_image_album"
-            app:layout_constraintTop_toTopOf="@+id/itemLocal_image_album"
-            tools:text="title" />
+            app:layout_constraintTop_toTopOf="@+id/itemLocal_image_album" />
 
         <TextView
             android:id="@+id/itemLocal_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="TextView"
             app:layout_constraintBottom_toBottomOf="@+id/itemLocal_image_album"
-            app:layout_constraintStart_toEndOf="@+id/itemLocal_image_album"
-            tools:text="36MB" />
+            app:layout_constraintStart_toEndOf="@+id/itemLocal_image_album" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>
