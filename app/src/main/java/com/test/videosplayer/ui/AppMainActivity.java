@@ -2,6 +2,7 @@ package com.test.videosplayer.ui;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -74,6 +75,7 @@ public class AppMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
 
         initViews();
@@ -197,10 +199,6 @@ public class AppMainActivity extends AppCompatActivity {
 
         LocalAdapter adapter = new LocalAdapter(this, videosList);
         recyclerView.setAdapter(adapter);
-
-
-
-
     }
 
     VideoFinder.OnQueryVideosListener queryVideosListener = new VideoFinder.OnQueryVideosListener() {

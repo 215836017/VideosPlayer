@@ -19,6 +19,8 @@ public class MediaPlayerManager {
 
     public interface OnMediaPlayerListner {
         void onError(int errorCode);
+
+        void onPlayStarted();
     }
 
     private OnMediaPlayerListner listner;
@@ -67,6 +69,19 @@ public class MediaPlayerManager {
         }
     }
 
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
+    }
+
+    public int getCurrentPosition() {
+        if (null != mediaPlayer) {
+            return mediaPlayer.getCurrentPosition();
+        }
+
+
+        return 0;
+    }
+
     public void release() {
         stopPlay();
         mediaPlayer.release();
@@ -77,8 +92,10 @@ public class MediaPlayerManager {
         @Override
         public void onPrepared(MediaPlayer mp) {
             LogUtil.d(TAG, "onPrepared() -- 11111");
-
             mediaPlayer.start();
+            if (null != listner) {
+                listner.onPlayStarted();
+            }
         }
     };
 
