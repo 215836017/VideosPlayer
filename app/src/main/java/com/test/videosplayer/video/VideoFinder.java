@@ -121,6 +121,7 @@ public class VideoFinder extends Thread {
 //                    return o1.getData().compareTo(o2.getData());
 //                }
 //            });
+
         } else {
             LogUtil.e(TAG, "return null");
         }
