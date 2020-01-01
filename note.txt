@@ -4,6 +4,7 @@ https://blog.csdn.net/smart_mumu/article/details/9130327
 2. 提取视频多张图片和视频信息：
 https://blog.csdn.net/ta893115871/article/details/69218543
 https://www.jianshu.com/p/b05e5d83318b
+https://www.cnblogs.com/Free-Thinker/p/6722164.html
 
 3. 使用线程池的好处可以归纳为3点：
 (1).重用线程池中的线程， 避免因为线程的创建和销毁所带来的性能开销.

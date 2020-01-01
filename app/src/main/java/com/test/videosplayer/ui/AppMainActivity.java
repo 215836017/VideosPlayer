@@ -3,11 +3,14 @@ package com.test.videosplayer.ui;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,17 +23,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.test.videosplayer.MediaCoverHelper;
 import com.test.videosplayer.R;
 import com.test.videosplayer.ui.adapter.LocalAdapter;
 import com.test.videosplayer.utils.LogUtil;
 import com.test.videosplayer.video.VideoBean;
 import com.test.videosplayer.video.VideoFinder;
 
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -185,6 +183,7 @@ public class AppMainActivity extends AppCompatActivity {
     }
 
     private void queryAllVideos() {
+
         progressBar.setVisibility(View.VISIBLE);
         videoFinder = new VideoFinder(this, queryVideosListener);
         videoFinder.start();
@@ -198,6 +197,9 @@ public class AppMainActivity extends AppCompatActivity {
 
         LocalAdapter adapter = new LocalAdapter(this, videosList);
         recyclerView.setAdapter(adapter);
+
+
+
 
     }
 

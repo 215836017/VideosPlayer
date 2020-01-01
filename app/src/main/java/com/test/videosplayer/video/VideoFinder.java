@@ -21,10 +21,12 @@ public class VideoFinder extends Thread {
 
     private Context context;
     private OnQueryVideosListener onQueryVideosListener;
+    private MediaCoverHelper mediaCoverHelper;
 
     public VideoFinder(Context context, OnQueryVideosListener onQueryVideosListener) {
         this.context = context;
         this.onQueryVideosListener = onQueryVideosListener;
+        mediaCoverHelper = new MediaCoverHelper();
     }
 
     @Override
@@ -47,7 +49,10 @@ public class VideoFinder extends Thread {
             int testCount = 0;
 
             while (cursor.moveToNext()) {
-
+                String data = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA));
+                if (data.endsWith(".mp3")) {
+                    continue;
+                }
                 String default_sort_order = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DEFAULT_SORT_ORDER));
                 String album = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.ALBUM));
                 String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.ARTIST));
@@ -65,7 +70,7 @@ public class VideoFinder extends Thread {
                 int mini_thumb_magic = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.MINI_THUMB_MAGIC));
                 String resolution = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.RESOLUTION));
                 String tags = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.TAGS));
-                String data = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA));
+
                 int date_added = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_ADDED));
                 int date_modified = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED));
                 String display_name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME));
@@ -77,7 +82,6 @@ public class VideoFinder extends Thread {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID));
 
                 if (0 == testCount) {
-                    testCount++;
                     LogUtil.d(TAG, "default_sort_order = " + default_sort_order);
                     LogUtil.d(TAG, "album = " + album);
                     LogUtil.d(TAG, "artist = " + artist);
@@ -106,6 +110,8 @@ public class VideoFinder extends Thread {
                     LogUtil.d(TAG, "id = " + id);
                     LogUtil.d(TAG, "title = " + title);
                 }
+
+//                if (mediaCoverHelper.createVideoCover(data, title)) {
                 videosList.add(new VideoBean(id, default_sort_order, album, artist, bookMark,
                         bucket_display_name, bucket_id, category, date_taken,
                         description, duration, is_private, language,
@@ -113,6 +119,8 @@ public class VideoFinder extends Thread {
                         tags, data, date_added, date_modified,
                         display_name, height, mime_type, size, title,
                         width));
+
+//                }
             }
 
 //            Collections.sort(videosList, new Comparator<VideoBean>() {
@@ -125,6 +133,7 @@ public class VideoFinder extends Thread {
         } else {
             LogUtil.e(TAG, "return null");
         }
+
         if (null != onQueryVideosListener) {
             onQueryVideosListener.onQueryVideosFinish(videosList);
         } else {
